@@ -12,7 +12,12 @@ if st.button('환영인사'):
     st.balloons()
     st.image('https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/4arX/image/kHEyaIBkalJXnxwx46z7kY5Kwoc.jpg')
 
-st.success('성공!')  #초록
-st.warning('하하')   #노랑
-st.error('호호')    #빨강
-st.info('파랑')    #파랑
+st.success(f'안녕하세요 {name}님')  #초록
+st.warning('꾸이꾸이')   #노랑
+st.error('만나서 반가워요')    #빨강
+st.info('당근 후원해주실래요?')    #파랑
+
+if st.button('당근 후원하기'):
+    st.balloons()
+    st.write(f'{name}님 감사해요!')
+    st.video('https://www.youtube.com/watch?v=1TovhBXTAQE')
