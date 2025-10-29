@@ -1,12 +1,15 @@
 import streamlit as st
 import random
 
+# 페이지 설정
 st.set_page_config(page_title="너를 알아보는 두 가지 길", layout="centered")
 
-# --- 스타일 ---
+# --- 스타일 (메인 CSS) ---
 st.markdown(
     """
     <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
     .stApp {
         background: linear-gradient(120deg, #f8fbff, #eef2ff);
         font-family: 'Pretendard', sans-serif;
@@ -46,14 +49,6 @@ st.markdown(
         background: linear-gradient(90deg, #8ea2f8, #a5b4fc);
         transform: scale(1.02);
     }
-    </style>
-    """,
-    unsafe_allow_html=True
-
-#디자인
-st.markdown(
-    """
-    <style>
     div[data-baseweb="tab-list"] {
         gap: 16px;
     }
@@ -78,24 +73,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-#결과창
-st.markdown(f"""
-<div style='background:#f0f4ff;padding:14px;border-radius:10px;margin:8px 0'>
-🎨 <b>추천 취미</b>: {rec['hobby']}
-</div>
-<div style='background:#fdf2f8;padding:14px;border-radius:10px;margin:8px 0'>
-🎧 <b>추천 곡</b>: {', '.join(rec['song'])}
-</div>
-<div style='background:#ecfdf5;padding:14px;border-radius:10px;margin:8px 0'>
-📚 <b>추천 책</b>: {rec['book']}
-</div>
-<div style='background:#fff7ed;padding:14px;border-radius:10px;margin:8px 0'>
-🤝 <b>잘 맞는 MBTI</b>: {', '.join(rec['match'])}
-</div>
-""", unsafe_allow_html=True)
-
-
-    
+# --------------------
+# 페이지 타이틀
+# --------------------
 st.title("✨ 너를 알아보는 두 가지 길")
 st.caption("간단한 MBTI 테스트와 학과 탐색 — 깔끔하고 감각적인 UI")
 
@@ -109,33 +89,28 @@ with tabs[0]:
     st.header("🔍 간단 MBTI — 10문항")
     st.write("각 문항에서 더 맞는 쪽을 골라줘. 결과로 MBTI와 취향/추천을 알려줄게.")
 
-    # 질문 설계: 10문항으로 4지표 균형 맞추기
     questions = [
-        {"q": "파티에서 난", "a":"사람들과 활발히 얘기하며 에너지 얻음", "b":"한두 명이랑 깊게 얘기하는 걸 선호함", "trait":"EI"},
-        {"q": "결정할 때", "a":"직관/감으로 즉흥적인 편", "b":"계획 세우고 체크하는 편", "trait":"JP"},
-        {"q": "정보를 볼 때", "a":"사실과 세부 사항에 주목", "b":"패턴과 미래 가능성에 주목", "trait":"SN"},
-        {"q": "토론할 때", "a":"논리와 근거로 말하는 편", "b":"사람 감정과 조화를 고려", "trait":"TF"},
-        {"q": "여가시간엔", "a":"계획된 활동으로 효율적으로 보냄", "b":"그날 기분 따라 자유롭게 보냄", "trait":"JP"},
-        {"q": "친구가 고민상담할 때", "a":"직설적으로 해결책 제시", "b":"공감과 감정 지지 먼저", "trait":"TF"},
-        {"q": "일을 할 때", "a":"체계적으로 하나씩 처리", "b":"여러 가능성 열어두고 진행", "trait":"JP"},
-        {"q": "학습 스타일", "a":"구체적 사례와 연습으로 익힘", "b":"개념과 원리 중심으로 이해", "trait":"SN"},
-        {"q": "새로운 사람 만나면", "a":"바로 말 걸고 친해지려 함", "b":"관찰 후 천천히 다가감", "trait":"EI"},
-        {"q": "결정 내릴 때", "a":"객관적 분석으로 선택", "b":"가치와 감정 고려해 선택", "trait":"TF"},
+        {"q": "파티에서 난", "a": "사람들과 활발히 얘기하며 에너지 얻음", "b": "한두 명이랑 깊게 얘기하는 걸 선호함", "trait": "EI"},
+        {"q": "결정할 때", "a": "직관/감으로 즉흥적인 편", "b": "계획 세우고 체크하는 편", "trait": "JP"},
+        {"q": "정보를 볼 때", "a": "사실과 세부 사항에 주목", "b": "패턴과 미래 가능성에 주목", "trait": "SN"},
+        {"q": "토론할 때", "a": "논리와 근거로 말하는 편", "b": "사람 감정과 조화를 고려", "trait": "TF"},
+        {"q": "여가시간엔", "a": "계획된 활동으로 효율적으로 보냄", "b": "그날 기분 따라 자유롭게 보냄", "trait": "JP"},
+        {"q": "친구가 고민상담할 때", "a": "직설적으로 해결책 제시", "b": "공감과 감정 지지 먼저", "trait": "TF"},
+        {"q": "일을 할 때", "a": "체계적으로 하나씩 처리", "b": "여러 가능성 열어두고 진행", "trait": "JP"},
+        {"q": "학습 스타일", "a": "구체적 사례와 연습으로 익힘", "b": "개념과 원리 중심으로 이해", "trait": "SN"},
+        {"q": "새로운 사람 만나면", "a": "바로 말 걸고 친해지려 함", "b": "관찰 후 천천히 다가감", "trait": "EI"},
+        {"q": "결정 내릴 때", "a": "객관적 분석으로 선택", "b": "가치와 감정 고려해 선택", "trait": "TF"},
     ]
 
     if 'answers' not in st.session_state:
         st.session_state.answers = [None] * len(questions)
 
     for i, item in enumerate(questions):
-        col1, col2 = st.columns([3,1])
-        with col1:
-            st.write(f"**{i+1}.** {item['q']}")
-            choice = st.radio("", (item['a'], item['b']), key=f"q{i}")
-        st.session_state.answers[i] = choice
+        st.write(f"**{i+1}. {item['q']}**")
+        st.session_state.answers[i] = st.radio("", (item['a'], item['b']), key=f"q{i}")
 
     if st.button("결과 보기 🎯"):
-        # 집계
-        counts = {"E":0, "I":0, "S":0, "N":0, "T":0, "F":0, "J":0, "P":0}
+        counts = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
         mapping = {
             questions[0]['a']: 'E', questions[0]['b']: 'I',
             questions[1]['a']: 'P', questions[1]['b']: 'J',
@@ -152,12 +127,12 @@ with tabs[0]:
             if ans in mapping:
                 counts[mapping[ans]] += 1
 
-        # MBTI 조합
-        type1 = 'E' if counts['E'] >= counts['I'] else 'I'
-        type2 = 'S' if counts['S'] >= counts['N'] else 'N'
-        type3 = 'T' if counts['T'] >= counts['F'] else 'F'
-        type4 = 'J' if counts['J'] >= counts['P'] else 'P'
-        mbti = type1 + type2 + type3 + type4
+        mbti = (
+            ('E' if counts['E'] >= counts['I'] else 'I') +
+            ('S' if counts['S'] >= counts['N'] else 'N') +
+            ('T' if counts['T'] >= counts['F'] else 'F') +
+            ('J' if counts['J'] >= counts['P'] else 'P')
+        )
 
         # 추천 데이터 (간단 샘플, 필요하면 더 확장 가능)
         recommendations = {
@@ -315,5 +290,5 @@ with tabs[1]:
 
 # --- footer ---
 st.markdown("---")
-st.write("앱을 더 미세 조정할래? 추천곡을 확장하거나 학과 목록을 늘려줄게. 다음은 개발 tip:")
-st.write("`streamlit run streamlit_mbti_major_app.py` 로 실행")
+st.write("📘 `streamlit run app.py` 로 실행하세요.")
+st.caption("만든 사람: 민서 ✨")
