@@ -114,3 +114,69 @@ def reveal_cell(i,j):
                 for dj in (-1,0,1):
                     nx, ny = x+di, y+dj
                     if in_bounds(nx,ny) and not st.session_state['revealed'][nx][ny] and not st.session_state['flags'][nx][ny]:
+
+# --- 이어서 (minesweeper_app.py 완성본) ---
+                        q.append((nx, ny))
+
+def toggle_flag(i, j):
+    if st.session_state['state'] != 'playing': return
+    if st.session_state['revealed'][i][j]: return
+    st.session_state['flags'][i][j] = not st.session_state['flags'][i][j]
+
+def check_win():
+    r, c = len(st.session_state['board']), len(st.session_state['board'][0])
+    for i in range(r):
+        for j in range(c):
+            if st.session_state['board'][i][j] != -1 and not st.session_state['revealed'][i][j]:
+                return False
+    st.session_state['state'] = 'won'
+    st.session_state['elapsed'] = int(time.time() - st.session_state['start_time'])
+    return True
+
+# --- 게임판 표시 ---
+st.markdown('<div class="info-row">', unsafe_allow_html=True)
+if st.session_state['state'] == 'playing':
+    st.markdown(f'<span class="small">⌛ 경과 시간: {int(time.time() - st.session_state["start_time"])}초</span>', unsafe_allow_html=True)
+elif st.session_state['state'] == 'lost':
+    st.error(f"💥 지뢰 밟음! ({st.session_state['elapsed']}초)")
+elif st.session_state['state'] == 'won':
+    st.success(f"🎉 클리어! ({st.session_state['elapsed']}초)")
+st.markdown('</div>', unsafe_allow_html=True)
+
+r, c = len(st.session_state['board']), len(st.session_state['board'][0])
+for i in range(r):
+    cols = st.columns(c)
+    for j in range(c):
+        cell_style = "cell-btn "
+        content = ""
+        disabled = False
+
+        if st.session_state['revealed'][i][j]:
+            val = st.session_state['board'][i][j]
+            cell_style += "cell-open "
+            if val == -1:
+                content = "💣"
+                cell_style += "cell-mine"
+            elif val > 0:
+                content = str(val)
+        else:
+            cell_style += "cell-closed "
+            if st.session_state['flags'][i][j]:
+                content = "🚩"
+
+        if st.session_state['state'] != 'playing':
+            disabled = True
+
+        # 버튼 클릭 처리
+        if cols[j].button(content or " ", key=f"{i}-{j}", use_container_width=True, disabled=disabled):
+            if flag_mode:
+                toggle_flag(i, j)
+            else:
+                reveal_cell(i, j)
+                check_win()
+
+# --- 하단 문구 ---
+st.markdown("---")
+st.caption("💣 Made with ❤️ by 민서 | 감각적인 Streamlit 지뢰찾기")
+
+st.markdown("</div>", unsafe_allow_html=True)
