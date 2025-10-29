@@ -8,26 +8,94 @@ st.markdown(
     """
     <style>
     .stApp {
-        background: linear-gradient(135deg, #f7fbff 0%, #ffffff 30%);
-        color: #111827;
-        font-family: 'Noto Sans KR', sans-serif;
+        background: linear-gradient(120deg, #f8fbff, #eef2ff);
+        font-family: 'Pretendard', sans-serif;
+        color: #111;
     }
     .card {
-        background: rgba(255,255,255,0.8);
-        border-radius: 16px;
-        padding: 18px;
-        box-shadow: 0 6px 20px rgba(15,23,42,0.08);
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(14px);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
     }
     .result {
-        border-radius: 14px;
-        padding: 14px;
-        margin-top: 10px;
+        border: 1px solid rgba(107,141,242,0.3);
+        background: rgba(255,255,255,0.5);
+        backdrop-filter: blur(10px);
+    }
+    h1, h2, h3 {
+        color: #334155;
+        font-weight: 600;
+    }
+    .stButton>button {
+        background: linear-gradient(90deg, #6b8df2, #8ea2f8);
+        color: white;
+        border-radius: 12px;
+        padding: 8px 20px;
+        font-weight: 600;
+        border: none;
+        transition: 0.2s;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(90deg, #8ea2f8, #a5b4fc);
+        transform: scale(1.02);
     }
     </style>
     """,
-    unsafe_allow_html=True,
+    unsafe_allow_html=True
+
+#디자인
+st.markdown(
+    """
+    <style>
+    div[data-baseweb="tab-list"] {
+        gap: 16px;
+    }
+    button[data-baseweb="tab"] {
+        background-color: #eef2ff;
+        border-radius: 10px !important;
+        color: #334155 !important;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+    }
+    button[data-baseweb="tab"]:hover {
+        background-color: #e0e7ff;
+        transform: scale(1.03);
+    }
+    button[data-baseweb="tab"][aria-selected="true"] {
+        background: linear-gradient(90deg, #6b8df2, #8ea2f8);
+        color: white !important;
+        font-weight: 600;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
+#결과창
+st.markdown(f"""
+<div style='background:#f0f4ff;padding:14px;border-radius:10px;margin:8px 0'>
+🎨 <b>추천 취미</b>: {rec['hobby']}
+</div>
+<div style='background:#fdf2f8;padding:14px;border-radius:10px;margin:8px 0'>
+🎧 <b>추천 곡</b>: {', '.join(rec['song'])}
+</div>
+<div style='background:#ecfdf5;padding:14px;border-radius:10px;margin:8px 0'>
+📚 <b>추천 책</b>: {rec['book']}
+</div>
+<div style='background:#fff7ed;padding:14px;border-radius:10px;margin:8px 0'>
+🤝 <b>잘 맞는 MBTI</b>: {', '.join(rec['match'])}
+</div>
+""", unsafe_allow_html=True)
+
+
+    
 st.title("✨ 너를 알아보는 두 가지 길")
 st.caption("간단한 MBTI 테스트와 학과 탐색 — 깔끔하고 감각적인 UI")
 
@@ -102,11 +170,11 @@ with tabs[0]:
             'ENFJ': {'hobby':'멘토링/봉사','song':['Coldplay - Fix You','BTS - Spring Day'],'book':'데일 카네기 - 인간관계론','match':['INFP','INTP']},
             'ENFP': {'hobby':'브이로그/창작 활동','song':['Pharrell Williams - Happy','NewJeans - Hype Boy'],'book':'엘리자베스 길버트 - Eat Pray Love','match':['INFJ','INTJ']},
             'ISTJ': {'hobby':'수집/데이터 정리','song':['The Beatles - Let It Be','IU - 마음'],'book':'체계적 사고 관련 서적','match':['ESFP','ESTP']},
-            'ISFJ': {'hobby':'수공예/요리','song':['Ed Sheeran - Perfect','태연 - Weekend'],'book':'인간관계/심리서적','match':['ESFP','ESTP']},
+            'ISFJ': {'hobby':'수공예/요리','song':['Jeremy Zucker - Comethru', '태연 - Weekend'],'book':'인간관계/심리서적','match':['ESFP','ESTP']},
             'ESTJ': {'hobby':'조직 운영/클럽 리더','song':['AC/DC - Back In Black','아이유 - Coin'],'book':'리더십/매니지먼트 서적','match':['ISFP','INFP']},
-            'ESFJ': {'hobby':'이벤트 기획','song':['Bruno Mars - Just The Way You Are','BLACKPINK - As If It’s Your Last'],'book':'대인관계 기술서','match':['INFP','ISFP']},
-            'ISTP': {'hobby':'메이커/수리','song':['Kendrick Lamar - HUMBLE.','SEVENTEEN - 아주 NICE'],'book':'기술 실용서','match':['ESFJ','ENFJ']},
-            'ISFP': {'hobby':'그림/사진','song':['Lana Del Rey - Video Games','주현 - 그대 곁에'],'book':'예술 관련 에세이','match':['ESTJ','ESFJ']},
+            'ESFJ': {'hobby':'이벤트 기획','song':['Icona Pop - I Love It','BLACKPINK - As If It’s Your Last'],'book':'대인관계 기술서','match':['INFP','ISFP']},
+            'ISTP': {'hobby':'메이커/수리','song':['Kendrick Lamar & SZA - luther','SEVENTEEN - 아주 NICE'],'book':'기술 실용서','match':['ESFJ','ENFJ']},
+            'ISFP': {'hobby':'그림/사진','song':['Frank Ocean - Pink + White','주현 - 그대 곁에'],'book':'예술 관련 에세이','match':['ESTJ','ESFJ']},
             'ESTP': {'hobby':'아웃도어 스포츠','song':['The Weeknd - Blinding Lights','ITZY - WANNABE'],'book':'실전형 자기계발서','match':['ISFJ','ISTJ']},
             'ESFP': {'hobby':'댄스/공연','song':['Dua Lipa - Levitating','TWICE - Feel Special'],'book':'셀프 표현 관련 책','match':['ISTJ','ISFJ']},
         }
