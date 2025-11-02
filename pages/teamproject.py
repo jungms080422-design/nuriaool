@@ -4,10 +4,10 @@ LifeStats-Simulator/
 ├── requirements.txt
 ├── README.md
 └── data/
-    ├── 청소년_자살시도율.csv
-    ├── 청소년_우울증.csv
-    ├── 사회문제_위험_노출_정도_20251102160905.csv
-    └── 현재_흡연율_일반담배_관련__현재사용률__20251102155742.csv
+    ├── suicide_rate.csv
+    ├── depression.csv
+    ├── smoking_rate.csv
+    └── social_risk_exposure.csv
 
 # LifeStats: 청소년 생명존중 시뮬레이터 🎮
 청소년기의 선택이 정신건강, 육체건강, 위험행동 등에 어떤 영향을 미치는지 체험하는 인터랙티브 웹앱입니다.  
